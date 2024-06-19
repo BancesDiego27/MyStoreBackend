@@ -22,7 +22,13 @@ export class JwtAdapter {
     
       }
 
-    static validateToken(token:string){
-      throw new Error('Not Implemented')
+    static validateToken<T>(token:string):Promise<T|null>  {
+      return new Promise  ( (resolve)=>{
+        jwt.verify(token,JWT_SEED,(err,decoded)=>{
+          if(err) return resolve(null)
+
+          resolve(decoded as T)
+        })
+      })
     }
 }
